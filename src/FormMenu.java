@@ -1,0 +1,25 @@
+import javax.swing.*;
+import java.util.ArrayList;
+
+public class FormMenu extends JFrame {
+
+    private JPanel panelPrincipal;
+    private JButton btnRegistrar;
+    private JButton btnListado;
+    private JButton btnCreditos;
+
+    private ArrayList<Usuario> usuarios = new ArrayList<>();
+
+    public FormMenu() {
+        setTitle("BookUsers · Daniel Torres y Fredy Quintero");
+        setContentPane(panelPrincipal);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(400, 300);
+        setLocationRelativeTo(null);
+    }
+
+    public static void main(String[] args) {
+        FormMenu menu = new FormMenu();
+        menu.setVisible(true);
+    }
+}
