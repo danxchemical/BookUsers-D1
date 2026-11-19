@@ -1,6 +1,11 @@
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
+
 import javax.swing.*;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileOutputStream;
 
 public class FormDetalle extends JFrame {
 
@@ -22,6 +27,8 @@ public class FormDetalle extends JFrame {
 
         mostrarFoto();
         mostrarInfo();
+
+        btnGenerarPdf.addActionListener(e -> generarPdf());
     }
 
     private void mostrarFoto() {
@@ -50,5 +57,39 @@ public class FormDetalle extends JFrame {
                         + "Teléfono: " + usuario.getTelefono() + "\n"
                         + "Correo: " + usuario.getCorreo()
         );
+    }
+
+    private void generarPdf() {
+        JFileChooser selector = new JFileChooser();
+        selector.setSelectedFile(new File("usuario_" + usuario.getUsername() + ".pdf"));
+        if (selector.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+        File destino = selector.getSelectedFile();
+
+        Document documento = new Document();
+        try {
+            PdfWriter.getInstance(documento, new FileOutputStream(destino));
+            documento.open();
+
+            String ruta = usuario.getRutaFoto();
+            if (ruta != null && !ruta.isEmpty() && new File(ruta).exists()) {
+                com.lowagie.text.Image foto = com.lowagie.text.Image.getInstance(ruta);
+                foto.scaleToFit(120, 120);
+                documento.add(foto);
+            }
+
+            documento.add(new Paragraph(" "));
+            documento.add(new Paragraph(txtInfo.getText()));
+
+            JOptionPane.showMessageDialog(this, "PDF generado en:\n" + destino.getAbsolutePath());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo generar el PDF: " + ex.getMessage());
+        } finally {
+            if (documento.isOpen()) {
+                documento.close();
+            }
+        }
     }
 }
