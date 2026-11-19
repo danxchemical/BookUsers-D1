@@ -13,6 +13,12 @@ public class Usuario {
     private String correo;
     private String rutaFoto;
 
+    private static int contadorId = 1;
+
+    public static int siguienteId() {
+        return contadorId++;
+    }
+
     public Usuario(int id, String tipoIdentificacion, String numeroIdentificacion,
                    String primerNombre, String segundoNombre,
                    String primerApellido, String segundoApellido,

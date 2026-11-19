@@ -21,6 +21,11 @@ public class FormMenu extends JFrame {
             FormCreditos creditos = new FormCreditos();
             creditos.setVisible(true);
         });
+
+        btnRegistrar.addActionListener(e -> {
+            FormRegistro registro = new FormRegistro(usuarios);
+            registro.setVisible(true);
+        });
     }
 
     public static void main(String[] args) {
