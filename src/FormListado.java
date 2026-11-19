@@ -34,6 +34,7 @@ public class FormListado extends JFrame {
             return;
         }
         Usuario seleccionado = modelo.getElementAt(indice);
-        // Aquí se abrirá FormDetalle (siguiente paso)
+        FormDetalle detalle = new FormDetalle(seleccionado);
+        detalle.setVisible(true);
     }
 }
