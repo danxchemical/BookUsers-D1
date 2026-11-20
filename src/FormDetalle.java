@@ -21,6 +21,7 @@ public class FormDetalle extends JFrame {
 
         setTitle("BookUsers · Detalle");
         setContentPane(panelPrincipal);
+        Tema.aplicar(panelPrincipal);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(450, 550);
         setLocationRelativeTo(null);

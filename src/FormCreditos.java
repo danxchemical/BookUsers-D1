@@ -9,6 +9,7 @@ public class FormCreditos extends JFrame {
     public FormCreditos() {
         setTitle("BookUsers · Créditos");
         setContentPane(panelPrincipal);
+        Tema.aplicar(panelPrincipal);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(600, 300);
         setLocationRelativeTo(null);

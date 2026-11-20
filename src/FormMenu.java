@@ -13,6 +13,7 @@ public class FormMenu extends JFrame {
     public FormMenu() {
         setTitle("BookUsers · Daniel Torres y Fredy Quintero");
         setContentPane(panelPrincipal);
+        Tema.aplicar(panelPrincipal);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);

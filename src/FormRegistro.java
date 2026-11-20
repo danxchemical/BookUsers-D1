@@ -42,6 +42,7 @@ public class FormRegistro extends JFrame {
                 ? "BookUsers · Registro"
                 : "BookUsers · Actualizar usuario");
         setContentPane(panelPrincipal);
+        Tema.aplicar(panelPrincipal);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 650);
         setLocationRelativeTo(null);

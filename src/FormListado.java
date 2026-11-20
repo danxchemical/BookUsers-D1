@@ -19,6 +19,7 @@ public class FormListado extends JFrame {
 
         setTitle("BookUsers · Listado");
         setContentPane(panelPrincipal);
+        Tema.aplicar(panelPrincipal);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 400);
         setLocationRelativeTo(null);
