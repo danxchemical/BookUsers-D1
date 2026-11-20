@@ -6,6 +6,7 @@ public class FormListado extends JFrame {
     private JPanel panelPrincipal;
     private JList<Usuario> lstUsuarios;
     private JButton btnVerDetalle;
+    private JButton btnEliminar;
 
     private ArrayList<Usuario> usuarios;
     private DefaultListModel<Usuario> modelo = new DefaultListModel<>();
@@ -25,6 +26,7 @@ public class FormListado extends JFrame {
         lstUsuarios.setModel(modelo);
 
         btnVerDetalle.addActionListener(e -> verDetalle());
+        btnEliminar.addActionListener(e -> eliminar());
     }
 
     private void verDetalle() {
@@ -36,5 +38,21 @@ public class FormListado extends JFrame {
         Usuario seleccionado = modelo.getElementAt(indice);
         FormDetalle detalle = new FormDetalle(seleccionado);
         detalle.setVisible(true);
+    }
+
+    private void eliminar() {
+        int indice = lstUsuarios.getSelectedIndex();
+        if (indice == -1) {
+            JOptionPane.showMessageDialog(this, "Seleccione un usuario de la lista.");
+            return;
+        }
+        Usuario seleccionado = modelo.getElementAt(indice);
+        int respuesta = JOptionPane.showConfirmDialog(this,
+                "¿Eliminar a " + seleccionado.getUsername() + "?",
+                "Confirmar", JOptionPane.YES_NO_OPTION);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            usuarios.remove(seleccionado);
+            modelo.remove(indice);
+        }
     }
 }
