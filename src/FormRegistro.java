@@ -25,12 +25,22 @@ public class FormRegistro extends JFrame {
     private JButton btnGuardar;
 
     private ArrayList<Usuario> usuarios;
+    private Usuario usuarioEditando;
     private String rutaFoto = "";
 
+    // Modo registro: usuario nuevo
     public FormRegistro(ArrayList<Usuario> usuarios) {
-        this.usuarios = usuarios;
+        this(usuarios, null);
+    }
 
-        setTitle("BookUsers · Registro");
+    // Modo actualizar: usuario existente (si es null, es un registro nuevo)
+    public FormRegistro(ArrayList<Usuario> usuarios, Usuario usuarioEditando) {
+        this.usuarios = usuarios;
+        this.usuarioEditando = usuarioEditando;
+
+        setTitle(usuarioEditando == null
+                ? "BookUsers · Registro"
+                : "BookUsers · Actualizar usuario");
         setContentPane(panelPrincipal);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 650);
@@ -49,6 +59,10 @@ public class FormRegistro extends JFrame {
 
         btnCargarFoto.addActionListener(e -> cargarFoto());
         btnGuardar.addActionListener(e -> guardar());
+
+        if (usuarioEditando != null) {
+            cargarDatos();
+        }
     }
 
     private void llenarTiposId() {
@@ -61,6 +75,32 @@ public class FormRegistro extends JFrame {
         cmbTipoId.addItem("42 - Documento de identificación extranjero");
         cmbTipoId.addItem("47 - Permiso Especial de Permanencia (PEP)");
         cmbTipoId.addItem("91 - NUIP");
+    }
+
+    private void cargarDatos() {
+        Usuario u = usuarioEditando;
+        cmbTipoId.setSelectedItem(u.getTipoIdentificacion());
+        txtNumeroId.setText(u.getNumeroIdentificacion());
+        txtPrimerNombre.setText(u.getPrimerNombre());
+        txtSegundoNombre.setText(u.getSegundoNombre());
+        txtPrimerApellido.setText(u.getPrimerApellido());
+        txtSegundoApellido.setText(u.getSegundoApellido());
+        txtPassword.setText(u.getPassword());
+        txtTelefono.setText(u.getTelefono());
+        txtCorreo.setText(u.getCorreo());
+        rutaFoto = u.getRutaFoto();
+        mostrarFotoGuardada();
+        btnGuardar.setText("Guardar cambios");
+    }
+
+    private void mostrarFotoGuardada() {
+        if (rutaFoto == null || rutaFoto.isEmpty() || !new File(rutaFoto).exists()) {
+            return;
+        }
+        ImageIcon icono = new ImageIcon(rutaFoto);
+        Image escalada = icono.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+        lblFoto.setText("");
+        lblFoto.setIcon(new ImageIcon(escalada));
     }
 
     private String limpiar(String texto) {
@@ -129,13 +169,30 @@ public class FormRegistro extends JFrame {
             return;
         }
 
-        Usuario u = new Usuario(Usuario.siguienteId(), tipo, numero,
-                primerNombre, segundoNombre, primerApellido, segundoApellido,
-                lblUsername.getText(), password, telefono, correo, rutaFoto);
-        usuarios.add(u);
-
-        JOptionPane.showMessageDialog(this, "Usuario guardado: " + u.getUsername());
-        limpiarFormulario();
+        if (usuarioEditando == null) {
+            Usuario u = new Usuario(Usuario.siguienteId(), tipo, numero,
+                    primerNombre, segundoNombre, primerApellido, segundoApellido,
+                    lblUsername.getText(), password, telefono, correo, rutaFoto);
+            usuarios.add(u);
+            JOptionPane.showMessageDialog(this, "Usuario guardado: " + u.getUsername());
+            limpiarFormulario();
+        } else {
+            // Se modifica el mismo objeto: el id no cambia
+            usuarioEditando.setTipoIdentificacion(tipo);
+            usuarioEditando.setNumeroIdentificacion(numero);
+            usuarioEditando.setPrimerNombre(primerNombre);
+            usuarioEditando.setSegundoNombre(segundoNombre);
+            usuarioEditando.setPrimerApellido(primerApellido);
+            usuarioEditando.setSegundoApellido(segundoApellido);
+            usuarioEditando.setUsername(lblUsername.getText());
+            usuarioEditando.setPassword(password);
+            usuarioEditando.setTelefono(telefono);
+            usuarioEditando.setCorreo(correo);
+            usuarioEditando.setRutaFoto(rutaFoto);
+            JOptionPane.showMessageDialog(this,
+                    "Usuario actualizado: " + usuarioEditando.getUsername());
+            dispose();
+        }
     }
 
     private void limpiarFormulario() {
