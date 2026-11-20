@@ -2,8 +2,8 @@
 
 ## Integrantes
 
-- Daniel Libardo Torres Calderón · Código: pendiente (por confirmar con el profesor)
-- Fredy Alexander Quintero García · Código: pendiente (por confirmar con el profesor)
+- Daniel Libardo Torres Calderón · Código: UNP-TKQQ-45MC
+- Fredy Alexander Quintero García · Código: UNP-BLDT-LKWJ
 
 ## Cómo ejecutar
 
